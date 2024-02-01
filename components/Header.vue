@@ -1,35 +1,40 @@
 <template>
   <header>
-    <div class="logo">
-      <img src="/logo.png" alt="Logo" />
-      <div>
-        <h1>Headline</h1>
-        <p class="subtitle">Subtitle</p>
+    <div class="container">
+      <div class="logo">
+        <img src="/logo.png" alt="Logo" />
+        <div>
+          <h1>Headline</h1>
+          <p class="subtitle">Subtitle</p>
+        </div>
       </div>
+      <ul>
+        <li>
+          <img src="/cart.svg" alt="Cart" />
+          <span><b>amount</b></span>
+        </li>
+        <li>
+          <img src="/heart.svg" alt="Heart" />
+          <span>favs</span>
+        </li>
+        <li>
+          <img src="/profile.svg" alt="Heart" />
+          <span>profile</span>
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li>
-        <img src="/cart.svg" alt="Cart" />
-        <span><b>amount</b></span>
-      </li>
-      <li>
-        <img src="/heart.svg" alt="Heart" />
-        <span>favs</span>
-      </li>
-      <li>
-        <img src="/profile.svg" alt="Heart" />
-        <span>profile</span>
-      </li>
-    </ul>
   </header>
 </template>
 
 <style scoped>
 header {
+  padding: 30px 0;
+  border-bottom: 1px solid #cbd5e1; /*100*/
+}
+
+header .container {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #cbd5e1;
-  padding: 30px 40px;
 }
 
 .logo {
@@ -49,7 +54,7 @@ h1 {
 }
 
 .subtitle {
-  color: #9ca3af;
+  color: #9ca3af; /*200*/
 }
 
 ul {
@@ -61,7 +66,7 @@ ul {
 ul li {
   display: flex;
   gap: 10px;
-  color: #6b7280;
+  color: #6b7280; /*300*/
   transition: all 0.3s ease;
   cursor: pointer;
 }
