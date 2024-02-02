@@ -1,4 +1,5 @@
 <template>
+  <Drawer />
   <div class="wrapper">
     <Header />
     <div class="heading">
