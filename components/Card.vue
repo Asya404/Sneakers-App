@@ -1,6 +1,11 @@
 <template>
   <div class="card">
-    <img class="card__fav" src="/like-1.svg" alt="Like 1" />
+    <img
+      class="card__fav"
+      :src="!isFavorite ? '/like-1.svg' : '/like-2.svg'"
+      @click="onClickFavorite"
+      alt="Like"
+    />
     <img :src="imageUrl" alt="Product" />
     <p class="card__title">{{ title }}</p>
     <div class="card__footer">
@@ -10,7 +15,11 @@
           ><b>{{ price }}</b></span
         >
       </div>
-      <img src="/plus.svg" alt="Plus" />
+      <img
+        :src="!isAdded ? '/plus.svg' : '/checked.svg'"
+        @click="onClickAdd"
+        alt="Checked"
+      />
     </div>
   </div>
 </template>
@@ -20,6 +29,10 @@ defineProps({
   imageUrl: String,
   title: String,
   price: Number,
+  isFavorite: Boolean,
+  isAdded: Boolean,
+  onClickAdd: Function,
+  onClickFavorite: Function,
 });
 </script>
 

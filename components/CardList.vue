@@ -5,10 +5,17 @@
         title="Product title"
         imageUrl="/products/product-1.jpg"
         :price="5000"
+        :onClickAdd="showAlert"
       />
     </div>
   </div>
 </template>
+
+<script setup>
+const showAlert = () => {
+  alert(555);
+};
+</script>
 
 <style>
 .cards {
