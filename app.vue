@@ -1,5 +1,5 @@
 <template>
-  <Drawer />
+  <!-- <Drawer /> -->
   <div class="wrapper">
     <Header />
     <div class="heading">
@@ -26,6 +26,11 @@ body {
 
 img {
   max-width: 100%;
+}
+
+button,
+a {
+  all: unset;
 }
 
 .container {

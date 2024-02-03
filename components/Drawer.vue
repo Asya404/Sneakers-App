@@ -5,7 +5,22 @@
       <img src="/arrow-next.svg" alt="Arrow" />
       <h2>Drawer</h2>
     </div>
+
     <CartList />
+
+    <div class="drawer__footer">
+      <div class="drawer__summary">
+        <span>Summary:</span>
+        <div></div>
+        <b>13000</b>
+      </div>
+      <div class="drawer__fee">
+        <span>Fee:</span>
+        <div></div>
+        <b>300</b>
+      </div>
+      <button>Checkout</button>
+    </div>
   </div>
 </template>
 
@@ -31,6 +46,8 @@
   bottom: 0;
   padding: 30px;
   z-index: 150;
+  display: flex;
+  flex-direction: column;
 }
 
 .drawer__header {
@@ -55,5 +72,43 @@
 .drawer h2 {
   font-size: 20px;
   font-weight: 700;
+}
+
+.drawer__footer {
+  margin-top: 30px;
+}
+
+.drawer__summary,
+.drawer__fee {
+  display: flex;
+  justify-content: space-between;
+}
+
+.drawer__summary {
+  margin-bottom: 15px;
+}
+
+.drawer button {
+  background-color: #84cc16;
+  color: #fff;
+  width: 100%;
+  border-radius: 10px;
+  padding: 15px 0;
+  margin-top: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.drawer button:hover {
+  background-color: #65a30d;
+}
+
+.drawer button:active {
+  background-color: #4d7c0f;
+}
+
+.drawer button:disabled {
+  background-color: #cbd5e1;
 }
 </style>
