@@ -2,9 +2,20 @@
   <!-- <Drawer /> -->
   <div class="wrapper">
     <Header />
-    <div class="heading">
+    <div class="filters">
       <div class="container">
         <h2>All products</h2>
+        <div class="sort">
+          <select>
+            <option value="">By name</option>
+            <option value="">From low to high</option>
+            <option value="">From high to low</option>
+          </select>
+        </div>
+        <div class="search">
+          <img src="/search.svg" alt="Search" />
+          <input type="text" placeholder="Search..." />
+        </div>
       </div>
     </div>
     <CardList />
@@ -51,12 +62,48 @@ a {
   margin-top: 55px;
 }
 
-h2 {
-  font-size: 25px;
-  font-weight: 700;
+.filters {
+  padding: 30px 0;
 }
 
-.heading {
-  padding: 30px 0;
+.filters .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.filters h2 {
+  font-size: 25px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.search {
+  position: relative;
+}
+
+.search input,
+.sort select {
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  padding: 10px 8px 10px 35px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search input:focus {
+  border: 1px solid #9ca3af;
+}
+
+.search img {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sort select {
+  padding-left: 8px;
 }
 </style>
