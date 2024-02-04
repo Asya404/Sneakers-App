@@ -6,10 +6,10 @@
       <div class="container">
         <h2>All products</h2>
         <div class="sort">
-          <select>
-            <option value="">By name</option>
-            <option value="">From low to high</option>
-            <option value="">From high to low</option>
+          <select @change="onChangeSelect">
+            <option value="name">By name</option>
+            <option value="price">From low to high</option>
+            <option value="-price">From high to low</option>
           </select>
         </div>
         <div class="search">
@@ -18,9 +18,25 @@
         </div>
       </div>
     </div>
-    <CardList />
+    <CardList :items="items" />
   </div>
 </template>
+
+<script setup>
+const items = ref([]);
+
+const onChangeSelect = async (e) => {
+  const { data } = await useFetch(
+    `https://2fadb0c14f8b7015.mokky.dev/items?sortBy=${e.target.value}`
+  );
+  items.value = data.value;
+};
+
+onMounted(async () => {
+  const { data } = await useFetch("https://2fadb0c14f8b7015.mokky.dev/items");
+  items.value = data.value;
+});
+</script>
 
 <style>
 * {

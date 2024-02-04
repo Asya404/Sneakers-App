@@ -2,9 +2,9 @@
   <div class="cards">
     <div class="container">
       <Card
-        title="Product title"
-        imageUrl="/products/product-1.jpg"
-        :price="5000"
+        v-for="item in items"
+        :key="item.id"
+        :item="item"
         :onClickAdd="showAlert"
       />
     </div>
@@ -12,6 +12,10 @@
 </template>
 
 <script setup>
+defineProps({
+  items: Array,
+});
+
 const showAlert = () => {
   alert(555);
 };
@@ -20,6 +24,7 @@ const showAlert = () => {
 <style>
 .cards {
   padding-bottom: 30px;
+  margin-top: 40px;
 }
 
 .cards .container {

@@ -6,13 +6,13 @@
       @click="onClickFavorite"
       alt="Like"
     />
-    <img :src="imageUrl" alt="Product" />
-    <p class="card__title">{{ title }}</p>
+    <img :src="item.imageUrl" alt="Product" />
+    <p class="card__title">{{ item.title }}</p>
     <div class="card__footer">
       <div class="card__price">
         <span class="price">Price</span>
         <span
-          ><b>{{ price }}</b></span
+          ><b>{{ item.price }}</b></span
         >
       </div>
       <img
@@ -33,6 +33,7 @@ defineProps({
   isAdded: Boolean,
   onClickAdd: Function,
   onClickFavorite: Function,
+  item: Object,
 });
 </script>
 
