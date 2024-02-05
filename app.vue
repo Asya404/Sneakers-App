@@ -14,7 +14,11 @@
         </div>
         <div class="search">
           <img src="/search.svg" alt="Search" />
-          <input type="text" placeholder="Search..." />
+          <input
+            @input="onChangeSearchInput"
+            type="text"
+            placeholder="Search..."
+          />
         </div>
       </div>
     </div>
@@ -25,16 +29,40 @@
 <script setup>
 const items = ref([]);
 
-const onChangeSelect = async (e) => {
-  const { data } = await useFetch(
-    `https://2fadb0c14f8b7015.mokky.dev/items?sortBy=${e.target.value}`
-  );
-  items.value = data.value;
+const filters = reactive({
+  sortQuery: "",
+  searchQuery: "",
+});
+
+const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
+
+const onChangeSearchInput = (e) => (filters.searchQuery = e.target.value);
+
+const fetchItems = async () => {
+  const url = "https://2fadb0c14f8b7015.mokky.dev/items";
+
+  try {
+    const params = reactive({});
+
+    if (filters.searchQuery) {
+      params.title = `*${filters.searchQuery}*`;
+    }
+
+    if (filters.sortQuery) {
+      params.sortBy = filters.sortQuery;
+    }
+
+    const { data } = await useFetch(url, { params });
+    items.value = data.value;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-onMounted(async () => {
-  const { data } = await useFetch("https://2fadb0c14f8b7015.mokky.dev/items");
-  items.value = data.value;
+onMounted(fetchItems);
+
+watch(filters, () => {
+  fetchItems();
 });
 </script>
 
