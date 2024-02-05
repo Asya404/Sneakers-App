@@ -38,9 +38,33 @@ const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
 
 const onChangeSearchInput = (e) => (filters.searchQuery = e.target.value);
 
-const fetchItems = async () => {
-  const url = "https://2fadb0c14f8b7015.mokky.dev/items";
+const fetchFavorites = async () => {
+  try {
+    const { data } = await useFetch(
+      "https://2fadb0c14f8b7015.mokky.dev/favorites"
+    );
 
+    // update existing items with favorite property
+    items.value = items.value.map((item) => {
+      const favorite = data.value.find((fav) => fav.sneakerId === item.id);
+
+      if (!favorite) {
+        return item;
+      }
+
+      // if favorite exists, add isFavorite property
+      return {
+        ...item,
+        isFavorite: true,
+        favoriteId: favorite.id,
+      };
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const fetchItems = async () => {
   try {
     const params = reactive({});
 
@@ -52,14 +76,17 @@ const fetchItems = async () => {
       params.sortBy = filters.sortQuery;
     }
 
-    const { data } = await useFetch(url, { params });
+    const { data } = await useFetch(
+      "https://2fadb0c14f8b7015.mokky.dev/items",
+      { params }
+    );
     items.value = data.value;
   } catch (error) {
     console.error(error);
   }
 };
 
-onMounted(fetchItems);
+onMounted(fetchItems(), fetchFavorites());
 
 watch(filters, () => {
   fetchItems();
@@ -98,12 +125,11 @@ a {
 <style scoped>
 .wrapper {
   max-width: 960px;
-  margin: 0 auto;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
-  margin-top: 55px;
+  margin: 55px auto;
 }
 
 .filters {

@@ -2,7 +2,7 @@
   <div class="card">
     <img
       class="card__fav"
-      :src="!isFavorite ? '/like-1.svg' : '/like-2.svg'"
+      :src="!item.isFavorite ? '/like-1.svg' : '/like-2.svg'"
       @click="onClickFavorite"
       alt="Like"
     />
@@ -26,9 +26,6 @@
 
 <script setup>
 defineProps({
-  imageUrl: String,
-  title: String,
-  price: Number,
   isFavorite: Boolean,
   isAdded: Boolean,
   onClickAdd: Function,
