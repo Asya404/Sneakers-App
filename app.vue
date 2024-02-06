@@ -22,17 +22,13 @@
         </div>
       </div>
     </div>
-    <CardList :items="items" />
+    <CardList :items="items" @addToFavorite="addToFavorite" />
   </div>
 </template>
 
 <script setup>
 const items = ref([]);
-
-const filters = reactive({
-  sortQuery: "",
-  searchQuery: "",
-});
+const filters = reactive({ sortQuery: "", searchQuery: "" });
 
 const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
 
@@ -44,7 +40,7 @@ const fetchFavorites = async () => {
       "https://2fadb0c14f8b7015.mokky.dev/favorites"
     );
 
-    // update existing items with favorite property
+    // update existing items with favorite property if it exists in favorites or return original item
     items.value = items.value.map((item) => {
       const favorite = data.value.find((fav) => fav.sneakerId === item.id);
 
@@ -52,7 +48,6 @@ const fetchFavorites = async () => {
         return item;
       }
 
-      // if favorite exists, add isFavorite property
       return {
         ...item,
         isFavorite: true,
@@ -67,15 +62,12 @@ const fetchFavorites = async () => {
 const fetchItems = async () => {
   try {
     const params = reactive({});
-
     if (filters.searchQuery) {
       params.title = `*${filters.searchQuery}*`;
     }
-
     if (filters.sortQuery) {
       params.sortBy = filters.sortQuery;
     }
-
     const { data } = await useFetch(
       "https://2fadb0c14f8b7015.mokky.dev/items",
       { params }
@@ -86,7 +78,44 @@ const fetchItems = async () => {
   }
 };
 
-onMounted(fetchItems(), fetchFavorites());
+const addToFavorite = async (item) => {
+  try {
+    // check if it wasn't added before and post fav to db, update frontend (added id here)
+    // else if was added before, delete fav from db, update frontend (added id when fetch)
+
+    if (!item.isFavorite) {
+      const { data } = await useFetch(
+        "https://2fadb0c14f8b7015.mokky.dev/favorites",
+        {
+          method: "POST",
+          body: {
+            sneakerId: item.id,
+          },
+        }
+      );
+
+      item.isFavorite = true;
+      item.favoriteId = data.sneakerId;
+    } else {
+      const { data } = await useFetch(
+        `https://2fadb0c14f8b7015.mokky.dev/favorites/${item.favoriteId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      item.isFavorite = false;
+    }
+    console.log(item);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(async () => {
+  await fetchItems();
+  await fetchFavorites();
+});
 
 watch(filters, () => {
   fetchItems();
