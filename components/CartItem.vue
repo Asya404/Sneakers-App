@@ -1,6 +1,6 @@
 <template>
   <div class="cart">
-    <img class="cart__img" src="/products/product-1.jpg" alt="Product" />
+    <img class="cart__img" src="/sneakers/sneakers-1.jpg" alt="Product" />
     <div class="cart__text">
       <p>text</p>
       <p class="cart__price">price</p>

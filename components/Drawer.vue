@@ -2,7 +2,11 @@
   <div class="backdrop"></div>
   <div class="drawer">
     <div class="drawer__header">
-      <img src="/arrow-next.svg" alt="Arrow" />
+      <img
+        src="/arrow-next.svg"
+        alt="Arrow"
+        @click="() => emit('closeDrawer')"
+      />
       <h2>Drawer</h2>
     </div>
 
@@ -23,6 +27,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const emit = defineEmits(["closeDrawer"]);
+</script>
 
 <style scoped>
 .backdrop {

@@ -9,7 +9,7 @@
         </div>
       </div>
       <ul>
-        <li>
+        <li @click="() => emit('openDrawer')">
           <img src="/cart.svg" alt="Cart" />
           <span><b>amount</b></span>
         </li>
@@ -25,6 +25,10 @@
     </div>
   </header>
 </template>
+
+<script setup>
+const emit = defineEmits(["openDrawer"]);
+</script>
 
 <style scoped>
 header {

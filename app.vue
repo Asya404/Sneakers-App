@@ -1,7 +1,7 @@
 <template>
-  <!-- <Drawer /> -->
+  <Drawer v-if="drawerOpen" @closeDrawer="closeDrawer" />
   <div class="wrapper">
-    <Header />
+    <Header @openDrawer="openDrawer" />
     <div class="filters">
       <div class="container">
         <h2>All products</h2>
@@ -28,7 +28,14 @@
 
 <script setup>
 const items = ref([]);
+const drawerOpen = ref(false);
 const filters = reactive({ sortQuery: "", searchQuery: "" });
+
+const closeDrawer = () => (drawerOpen.value = false);
+const openDrawer = () => {
+  drawerOpen.value = true;
+  console.log(drawerOpen.value);
+};
 
 const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
 
@@ -80,10 +87,12 @@ const fetchItems = async () => {
 
 const addToFavorite = async (item) => {
   try {
-    // check if it wasn't added before and post fav to db, update frontend (added id here)
-    // else if was added before, delete fav from db, update frontend (added id when fetch)
+    // if it wasn't added before post fav to db, update frontend (add id and isFav here)
+    // else if was added before, delete fav by id from db, update frontend (added id and isFav when fetch)
 
     if (!item.isFavorite) {
+      item.isFavorite = true;
+
       const { data } = await useFetch(
         "https://2fadb0c14f8b7015.mokky.dev/favorites",
         {
@@ -94,17 +103,15 @@ const addToFavorite = async (item) => {
         }
       );
 
-      item.isFavorite = true;
       item.favoriteId = data.sneakerId;
     } else {
+      item.isFavorite = false;
       const { data } = await useFetch(
         `https://2fadb0c14f8b7015.mokky.dev/favorites/${item.favoriteId}`,
         {
           method: "DELETE",
         }
       );
-
-      item.isFavorite = false;
     }
     console.log(item);
   } catch (error) {
