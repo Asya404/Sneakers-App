@@ -1,13 +1,19 @@
 <template>
   <div class="cart">
-    <img class="cart__img" src="/sneakers/sneakers-1.jpg" alt="Product" />
+    <img class="cart__img" :src="product.imageUrl" alt="Product" />
     <div class="cart__text">
-      <p>text</p>
-      <p class="cart__price">price</p>
+      <p>{{ product.title }}</p>
+      <p class="cart__price">{{ product.price }}</p>
     </div>
     <img class="cart__close" src="/close.svg" alt="Close" />
   </div>
 </template>
+
+<script setup>
+defineProps({
+  product: Object,
+});
+</script>
 
 <style scoped>
 .cart {

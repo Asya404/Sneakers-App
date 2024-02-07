@@ -5,8 +5,8 @@
         v-for="item in items"
         :key="item.id"
         :item="item"
-        :onClickAdd="showAlert"
         :onClickFavorite="() => emit('addToFavorite', item)"
+        :onClickAdd="() => emit('addToCart', item)"
       />
     </div>
   </div>
@@ -17,11 +17,7 @@ defineProps({
   items: Array,
 });
 
-const emit = defineEmits(["addToFavorite"]);
-
-const showAlert = () => {
-  alert(555);
-};
+const emit = defineEmits(["addToFavorite", "addToCart"]);
 </script>
 
 <style>

@@ -10,7 +10,7 @@
       <h2>Drawer</h2>
     </div>
 
-    <CartList />
+    <CartList :cart="cart" />
 
     <div class="drawer__footer">
       <div class="drawer__summary">
@@ -29,6 +29,9 @@
 </template>
 
 <script setup>
+defineProps({
+  cart: Array,
+});
 const emit = defineEmits(["closeDrawer"]);
 </script>
 

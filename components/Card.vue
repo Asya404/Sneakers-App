@@ -16,7 +16,7 @@
         >
       </div>
       <img
-        :src="!isAdded ? '/plus.svg' : '/checked.svg'"
+        :src="!item.isAdded ? '/plus.svg' : '/checked.svg'"
         @click="onClickAdd"
         alt="Checked"
       />
@@ -26,11 +26,9 @@
 
 <script setup>
 defineProps({
-  isFavorite: Boolean,
-  isAdded: Boolean,
+  item: Object,
   onClickAdd: Function,
   onClickFavorite: Function,
-  item: Object,
 });
 </script>
 

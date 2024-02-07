@@ -1,5 +1,5 @@
 <template>
-  <Drawer v-if="drawerOpen" @closeDrawer="closeDrawer" />
+  <Drawer v-if="drawerOpen" @closeDrawer="closeDrawer" :cart="cart" />
   <div class="wrapper">
     <Header @openDrawer="openDrawer" />
     <div class="filters">
@@ -22,12 +22,17 @@
         </div>
       </div>
     </div>
-    <CardList :items="items" @addToFavorite="addToFavorite" />
+    <CardList
+      :items="items"
+      @addToFavorite="addToFavorite"
+      @addToCart="addToCart"
+    />
   </div>
 </template>
 
 <script setup>
 const items = ref([]);
+const cart = ref([]);
 const drawerOpen = ref(false);
 const filters = reactive({ sortQuery: "", searchQuery: "" });
 
@@ -117,6 +122,17 @@ const addToFavorite = async (item) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const addToCart = (item) => {
+  if (!item.isAdded) {
+    cart.value.push(item);
+    item.isAdded = true;
+  } else {
+    cart.value.splice(cart.value.indexOf(item), 1);
+    item.isAdded = false;
+  }
+  console.log(cart.value);
 };
 
 onMounted(async () => {
