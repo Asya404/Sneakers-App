@@ -1,13 +1,7 @@
 <template>
   <div class="cards">
     <div class="container">
-      <Card
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
-        :onClickFavorite="() => emit('addToFavorite', item)"
-        :onClickAdd="() => emit('addToCart', item)"
-      />
+      <Card v-for="item in items" :key="item.id" :item="item" />
     </div>
   </div>
 </template>
@@ -16,8 +10,6 @@
 defineProps({
   items: Array,
 });
-
-const emit = defineEmits(["addToFavorite", "addToCart"]);
 </script>
 
 <style>

@@ -3,21 +3,21 @@
     <img
       class="card__fav"
       :src="!item.isFavorite ? '/like-1.svg' : '/like-2.svg'"
-      @click="onClickFavorite"
+      @click="addToFavorite(item)"
       alt="Like"
     />
-    <img :src="item.imageUrl" alt="Product" />
+    <img class="card__img" :src="item.imageUrl" :alt="item.title" />
     <p class="card__title">{{ item.title }}</p>
     <div class="card__footer">
       <div class="card__price">
         <span class="price">Price</span>
         <span
-          ><b>{{ item.price }}</b></span
+          ><b>{{ item.price }} €</b></span
         >
       </div>
       <img
         :src="!item.isAdded ? '/plus.svg' : '/checked.svg'"
-        @click="onClickAdd"
+        @click="onAddPlus(item)"
         alt="Checked"
       />
     </div>
@@ -27,9 +27,12 @@
 <script setup>
 defineProps({
   item: Object,
-  onClickAdd: Function,
+  onAddPlus: Function,
   onClickFavorite: Function,
 });
+
+const addToFavorite = inject("addToFavorite");
+const onAddPlus = inject("onAddPlus");
 </script>
 
 <style scoped>
@@ -39,6 +42,8 @@ defineProps({
 
 .card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   border: 1px solid #f1f5f9;
   border-radius: 25px;
@@ -57,6 +62,10 @@ defineProps({
   position: absolute;
   top: 30px;
   left: 30px;
+}
+
+.card__img {
+  flex: 1;
 }
 
 .card__title {

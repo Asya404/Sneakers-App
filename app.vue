@@ -22,11 +22,7 @@
         </div>
       </div>
     </div>
-    <CardList
-      :items="items"
-      @addToFavorite="addToFavorite"
-      @addToCart="addToCart"
-    />
+    <CardList :items="items" />
   </div>
 </template>
 
@@ -37,10 +33,7 @@ const drawerOpen = ref(false);
 const filters = reactive({ sortQuery: "", searchQuery: "" });
 
 const closeDrawer = () => (drawerOpen.value = false);
-const openDrawer = () => {
-  drawerOpen.value = true;
-  console.log(drawerOpen.value);
-};
+const openDrawer = () => (drawerOpen.value = true);
 
 const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
 
@@ -124,7 +117,7 @@ const addToFavorite = async (item) => {
   }
 };
 
-const addToCart = (item) => {
+const onAddPlus = (item) => {
   if (!item.isAdded) {
     cart.value.push(item);
     item.isAdded = true;
@@ -134,6 +127,15 @@ const addToCart = (item) => {
   }
   console.log(cart.value);
 };
+
+const removeFromDrawer = (item) => {
+  cart.value.splice(cart.value.indexOf(item), 1);
+  item.isAdded = false;
+};
+
+provide("onAddPlus", onAddPlus);
+provide("removeFromDrawer", removeFromDrawer);
+provide("addToFavorite", addToFavorite);
 
 onMounted(async () => {
   await fetchItems();
