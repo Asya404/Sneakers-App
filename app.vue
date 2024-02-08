@@ -1,7 +1,12 @@
 <template>
-  <Drawer v-if="drawerOpen" @closeDrawer="closeDrawer" :cart="cart" />
+  <Drawer
+    v-if="drawerOpen"
+    @closeDrawer="closeDrawer"
+    :totalPrice="totalPrice"
+    :cart="cart"
+  />
   <div class="wrapper">
-    <Header @openDrawer="openDrawer" />
+    <Header :openDrawer="openDrawer" :totalPrice="totalPrice" />
     <div class="filters">
       <div class="container">
         <h2>All products</h2>
@@ -132,6 +137,10 @@ const removeFromDrawer = (item) => {
   cart.value.splice(cart.value.indexOf(item), 1);
   item.isAdded = false;
 };
+
+const totalPrice = computed(() =>
+  cart.value.reduce((acc, item) => acc + item.price, 0)
+);
 
 provide("onAddPlus", onAddPlus);
 provide("removeFromDrawer", removeFromDrawer);

@@ -16,12 +16,12 @@
       <div class="drawer__summary">
         <span>Summary:</span>
         <div></div>
-        <b>13000</b>
+        <b>{{ totalPrice }} €</b>
       </div>
       <div class="drawer__fee">
-        <span>Fee:</span>
+        <span>Delivery:</span>
         <div></div>
-        <b>300</b>
+        <b>10 €</b>
       </div>
       <button>Checkout</button>
     </div>
@@ -31,6 +31,7 @@
 <script setup>
 defineProps({
   cart: Array,
+  totalPrice: Number,
 });
 const emit = defineEmits(["closeDrawer"]);
 </script>

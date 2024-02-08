@@ -4,14 +4,16 @@
       <div class="logo">
         <img src="/logo.png" alt="Logo" />
         <div>
-          <h1>Headline</h1>
-          <p class="subtitle">Subtitle</p>
+          <h1>Vue Sneakers</h1>
+          <p class="subtitle">The Ultimate Sneaker Spot</p>
         </div>
       </div>
       <ul>
-        <li @click="() => emit('openDrawer')">
+        <li @click="openDrawer">
           <img src="/cart.svg" alt="Cart" />
-          <span><b>amount</b></span>
+          <span
+            ><b>{{ totalPrice }} €</b></span
+          >
         </li>
         <li>
           <img src="/heart.svg" alt="Heart" />
@@ -27,13 +29,16 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["openDrawer"]);
+defineProps({
+  totalPrice: Number,
+  openDrawer: Function,
+});
 </script>
 
 <style scoped>
 header {
   padding: 30px 0;
-  border-bottom: 1px solid #cbd5e1; /*100*/
+  border-bottom: 1px solid #cbd5e1;
 }
 
 header .container {
@@ -53,12 +58,13 @@ header .container {
 
 h1 {
   font-size: 20px;
-  fweight: 700;
+  font-weight: 700;
   text-transform: uppercase;
+  margin-bottom: 5px;
 }
 
 .subtitle {
-  color: #9ca3af; /*200*/
+  color: #9ca3af;
 }
 
 ul {
@@ -70,7 +76,7 @@ ul {
 ul li {
   display: flex;
   gap: 10px;
-  color: #6b7280; /*300*/
+  color: #6b7280;
   transition: all 0.3s ease;
   cursor: pointer;
 }
