@@ -2,6 +2,7 @@
   <Drawer
     v-if="drawerOpen"
     @closeDrawer="closeDrawer"
+    :createOrder="createOrder"
     :totalPrice="totalPrice"
     :cart="cart"
   />
@@ -141,6 +142,25 @@ const removeFromDrawer = (item) => {
 const totalPrice = computed(() =>
   cart.value.reduce((acc, item) => acc + item.price, 0)
 );
+
+const createOrder = async () => {
+  try {
+    const { data } = await useFetch(
+      "https://2fadb0c14f8b7015.mokky.dev/orders",
+      {
+        method: "POST",
+        body: {
+          items: cart.value,
+          totalPrice: totalPrice.value,
+        },
+      }
+    );
+    cart.value = [];
+    items.value.forEach((item) => (item.isAdded = false));
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 provide("onAddPlus", onAddPlus);
 provide("removeFromDrawer", removeFromDrawer);

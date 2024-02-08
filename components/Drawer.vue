@@ -23,7 +23,9 @@
         <div></div>
         <b>10 €</b>
       </div>
-      <button>Checkout</button>
+      <button :disabled="cart.length === 0" @click="createOrder">
+        Checkout
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +34,7 @@
 defineProps({
   cart: Array,
   totalPrice: Number,
+  createOrder: Function,
 });
 const emit = defineEmits(["closeDrawer"]);
 </script>
