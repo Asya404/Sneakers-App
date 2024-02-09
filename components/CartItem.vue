@@ -6,7 +6,7 @@
       <p class="cart__price">{{ product.price }} €</p>
     </div>
     <img
-      @click="() => removeFromDrawer(product)"
+      @click="removeFromDrawer(product)"
       class="cart__close"
       src="/close.svg"
       alt="Close"

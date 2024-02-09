@@ -59,7 +59,7 @@ const fetchItems = async () => {
       { params }
     );
 
-    // get data from LS
+    // update initial values with data from LS
     const favoritesLS = JSON.parse(localStorage.getItem("favorites")) || [];
     const addedItemsLS = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -67,7 +67,7 @@ const fetchItems = async () => {
       return {
         ...item,
         isFavorite: favoritesLS.some((fav) => fav.id === item.id),
-        isAdded: addedItemsLS.some((fav) => fav.id === item.id),
+        isAdded: addedItemsLS.some((addedItem) => addedItem.id === item.id),
       };
     });
 
@@ -91,9 +91,12 @@ const onAddPlus = (item) => {
   }
 };
 
-const removeFromDrawer = (item) => {
-  cart.value.splice(cart.value.indexOf(item), 1);
-  item.isAdded = false;
+const removeFromDrawer = (cartItem) => {
+  cart.value.splice(cart.value.indexOf(cartItem), 1);
+  const itemToUpdate = items.value.find((item) => item.id === cartItem.id);
+  if (itemToUpdate) {
+    itemToUpdate.isAdded = false;
+  }
 };
 
 const totalPrice = computed(() =>
@@ -119,19 +122,15 @@ const createOrder = async () => {
   }
 };
 
+// watch changing properties isFav and isAdded on click and set to LS
 watch(
   items,
   () => {
     const favorites = items.value.filter((item) => item.isFavorite);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  },
-  { deep: true }
-);
+    const cartItems = items.value.filter((item) => item.isAdded);
 
-watch(
-  cart,
-  () => {
-    localStorage.setItem("cart", JSON.stringify(cart.value));
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    localStorage.setItem("cart", JSON.stringify(cartItems));
   },
   { deep: true }
 );
