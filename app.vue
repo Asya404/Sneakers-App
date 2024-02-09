@@ -45,31 +45,6 @@ const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
 
 const onChangeSearchInput = (e) => (filters.searchQuery = e.target.value);
 
-const fetchFavorites = async () => {
-  try {
-    const { data } = await useFetch(
-      "https://2fadb0c14f8b7015.mokky.dev/favorites"
-    );
-
-    // update existing items with favorite property if it exists in favorites or return original item
-    items.value = items.value.map((item) => {
-      const favorite = data.value.find((fav) => fav.sneakerId === item.id);
-
-      if (!favorite) {
-        return item;
-      }
-
-      return {
-        ...item,
-        isFavorite: true,
-        favoriteId: favorite.id,
-      };
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const fetchItems = async () => {
   try {
     const params = reactive({});
@@ -83,44 +58,23 @@ const fetchItems = async () => {
       "https://2fadb0c14f8b7015.mokky.dev/items",
       { params }
     );
-    items.value = data.value;
+
+    // get favorites from LS
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    items.value = data.value.map((item) => {
+      return {
+        ...item,
+        isFavorite: favorites.some((fav) => fav.id === item.id),
+      };
+    });
   } catch (error) {
     console.error(error);
   }
 };
 
-const addToFavorite = async (item) => {
-  try {
-    // if it wasn't added before post fav to db, update frontend (add id and isFav here)
-    // else if was added before, delete fav by id from db, update frontend (added id and isFav when fetch)
-
-    if (!item.isFavorite) {
-      item.isFavorite = true;
-
-      const { data } = await useFetch(
-        "https://2fadb0c14f8b7015.mokky.dev/favorites",
-        {
-          method: "POST",
-          body: {
-            sneakerId: item.id,
-          },
-        }
-      );
-
-      item.favoriteId = data.sneakerId;
-    } else {
-      item.isFavorite = false;
-      const { data } = await useFetch(
-        `https://2fadb0c14f8b7015.mokky.dev/favorites/${item.favoriteId}`,
-        {
-          method: "DELETE",
-        }
-      );
-    }
-    console.log(item);
-  } catch (error) {
-    console.log(error);
-  }
+const addToFavorite = (item) => {
+  item.isFavorite = !item.isFavorite;
 };
 
 const onAddPlus = (item) => {
@@ -162,13 +116,23 @@ const createOrder = async () => {
   }
 };
 
+watch(
+  items,
+  () => {
+    const favorites = items.value.filter((item) => item.isFavorite);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  },
+  {
+    deep: true,
+  }
+);
+
 provide("onAddPlus", onAddPlus);
 provide("removeFromDrawer", removeFromDrawer);
 provide("addToFavorite", addToFavorite);
 
 onMounted(async () => {
   await fetchItems();
-  await fetchFavorites();
 });
 
 watch(filters, () => {
