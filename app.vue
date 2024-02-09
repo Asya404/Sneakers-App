@@ -59,15 +59,19 @@ const fetchItems = async () => {
       { params }
     );
 
-    // get favorites from LS
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    // get data from LS
+    const favoritesLS = JSON.parse(localStorage.getItem("favorites")) || [];
+    const addedItemsLS = JSON.parse(localStorage.getItem("cart")) || [];
 
     items.value = data.value.map((item) => {
       return {
         ...item,
-        isFavorite: favorites.some((fav) => fav.id === item.id),
+        isFavorite: favoritesLS.some((fav) => fav.id === item.id),
+        isAdded: addedItemsLS.some((fav) => fav.id === item.id),
       };
     });
+
+    cart.value = addedItemsLS;
   } catch (error) {
     console.error(error);
   }
@@ -85,7 +89,6 @@ const onAddPlus = (item) => {
     cart.value.splice(cart.value.indexOf(item), 1);
     item.isAdded = false;
   }
-  console.log(cart.value);
 };
 
 const removeFromDrawer = (item) => {
@@ -122,9 +125,15 @@ watch(
     const favorites = items.value.filter((item) => item.isFavorite);
     localStorage.setItem("favorites", JSON.stringify(favorites));
   },
-  {
-    deep: true,
-  }
+  { deep: true }
+);
+
+watch(
+  cart,
+  () => {
+    localStorage.setItem("cart", JSON.stringify(cart.value));
+  },
+  { deep: true }
 );
 
 provide("onAddPlus", onAddPlus);
