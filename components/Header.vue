@@ -5,7 +5,7 @@
         <img src="/logo.png" alt="Logo" />
         <div>
           <h1>Vue Sneakers</h1>
-          <p class="subtitle">The Ultimate Sneaker Spot</p>
+          <p class="subtitle">The ultimate sneaker spot</p>
         </div>
       </div>
       <ul>

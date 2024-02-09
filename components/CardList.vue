@@ -15,7 +15,7 @@ defineProps({
 <style>
 .cards {
   padding-bottom: 30px;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .cards .container {

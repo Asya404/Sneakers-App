@@ -6,8 +6,15 @@
     :totalPrice="totalPrice"
     :cart="cart"
   />
+
   <div class="wrapper">
     <Header :openDrawer="openDrawer" :totalPrice="totalPrice" />
+    <div class="hero">
+      <div class="container">
+        <img src="/hero.png" alt="Hero" />
+      </div>
+    </div>
+
     <div class="filters">
       <div class="container">
         <h2>All products</h2>
@@ -28,6 +35,7 @@
         </div>
       </div>
     </div>
+
     <CardList :items="items" />
   </div>
 </template>
@@ -185,6 +193,10 @@ a {
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
   margin: 55px auto;
+}
+
+.hero {
+  margin-top: 30px;
 }
 
 .filters {
