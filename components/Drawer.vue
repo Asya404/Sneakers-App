@@ -10,22 +10,31 @@
       <h2>Drawer</h2>
     </div>
 
-    <CartList :cart="cart" />
+    <infoBlock
+      v-if="cart.length === 0"
+      title="Your cart is empty"
+      description="Go shopping"
+      imageUrl="/package-icon.png"
+    />
 
-    <div class="drawer__footer">
-      <div class="drawer__summary">
-        <span>Summary:</span>
-        <div></div>
-        <b>{{ totalPrice }} €</b>
+    <div v-else>
+      <CartList :cart="cart" />
+
+      <div class="drawer__footer">
+        <div class="drawer__summary">
+          <span>Summary:</span>
+          <div></div>
+          <b>{{ totalPrice }} €</b>
+        </div>
+        <div class="drawer__fee">
+          <span>Delivery:</span>
+          <div></div>
+          <b>10 €</b>
+        </div>
+        <button :disabled="cart.length === 0" @click="createOrder">
+          Checkout
+        </button>
       </div>
-      <div class="drawer__fee">
-        <span>Delivery:</span>
-        <div></div>
-        <b>10 €</b>
-      </div>
-      <button :disabled="cart.length === 0" @click="createOrder">
-        Checkout
-      </button>
     </div>
   </div>
 </template>
