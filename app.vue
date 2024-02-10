@@ -90,17 +90,13 @@ const addToFavorite = (item) => {
 };
 
 const onAddPlus = (item) => {
-  if (!item.isAdded) {
-    cart.value.push(item);
-    item.isAdded = true;
-  } else {
-    cart.value.splice(cart.value.indexOf(item), 1);
-    item.isAdded = false;
-  }
+  item.isAdded = !item.isAdded;
+  cart.value = items.value.filter((item) => item.isAdded);
 };
 
 const removeFromDrawer = (cartItem) => {
   cart.value.splice(cart.value.indexOf(cartItem), 1);
+  cartItem.isAdded = false;
   const itemToUpdate = items.value.find((item) => item.id === cartItem.id);
   if (itemToUpdate) {
     itemToUpdate.isAdded = false;
