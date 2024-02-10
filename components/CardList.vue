@@ -1,6 +1,6 @@
 <template>
   <div class="cards">
-    <div class="container">
+    <div class="container" v-auto-animate>
       <Card v-for="item in items" :key="item.id" :item="item" />
     </div>
   </div>

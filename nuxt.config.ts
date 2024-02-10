@@ -11,4 +11,5 @@ export default defineNuxtConfig({
       ],
     },
   },
+  modules: ["@formkit/auto-animate/nuxt"],
 });

@@ -6,7 +6,9 @@
       @click="addToFavorite(item)"
       alt="Like"
     />
-    <img class="card__img" :src="item.imageUrl" :alt="item.title" />
+    <div class="card__img">
+      <img class="card__img" :src="item.imageUrl" :alt="item.title" />
+    </div>
     <p class="card__title">{{ item.title }}</p>
     <div class="card__footer">
       <div class="card__price">
@@ -64,8 +66,8 @@ const onAddPlus = inject("onAddPlus");
   left: 30px;
 }
 
-.card__img {
-  flex: 1;
+.card__img img {
+  height: 121px;
 }
 
 .card__title {
