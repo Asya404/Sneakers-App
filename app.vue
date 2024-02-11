@@ -41,114 +41,44 @@
 </template>
 
 <script setup>
-const items = ref([]);
-const cart = ref([]);
-const drawerOpen = ref(false);
-const filters = reactive({ sortQuery: "", searchQuery: "" });
+import { useMainStore } from "@/store/store";
 
-const closeDrawer = () => (drawerOpen.value = false);
-const openDrawer = () => (drawerOpen.value = true);
+const store = useMainStore();
 
-const onChangeSelect = (e) => (filters.sortQuery = e.target.value);
+const items = computed(() => store.items);
+const cart = computed(() => store.cart);
+const drawerOpen = computed(() => store.drawerOpen);
+const totalPrice = computed(() => store.totalPrice);
 
-const onChangeSearchInput = (e) => (filters.searchQuery = e.target.value);
+const sortQuery = ref("");
+const searchQuery = ref("");
 
-const fetchItems = async () => {
-  try {
-    const params = reactive({});
-    if (filters.searchQuery) {
-      params.title = `*${filters.searchQuery}*`;
-    }
-    if (filters.sortQuery) {
-      params.sortBy = filters.sortQuery;
-    }
-    const { data } = await useFetch(
-      "https://2fadb0c14f8b7015.mokky.dev/items",
-      { params }
-    );
+const closeDrawer = () => (store.drawerOpen = false);
+const openDrawer = () => (store.drawerOpen = true);
 
-    // update initial values with data from LS
-    const favoritesLS = JSON.parse(localStorage.getItem("favorites")) || [];
-    const addedItemsLS = JSON.parse(localStorage.getItem("cart")) || [];
+const onChangeSelect = (e) => (sortQuery.value = e.target.value);
+const onChangeSearchInput = (e) => (searchQuery.value = e.target.value);
 
-    items.value = data.value.map((item) => {
-      return {
-        ...item,
-        isFavorite: favoritesLS.some((fav) => fav.id === item.id),
-        isAdded: addedItemsLS.some((addedItem) => addedItem.id === item.id),
-      };
-    });
+const addToFavorite = (item) => store.addToFavorite(item);
+const onAddPlus = (item) => store.onAddPlus(item);
+const removeFromDrawer = (cartItem) => store.removeFromDrawer(cartItem);
+const createOrder = () => store.createOrder();
 
-    cart.value = addedItemsLS;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const addToFavorite = (item) => {
-  item.isFavorite = !item.isFavorite;
-};
-
-const onAddPlus = (item) => {
-  item.isAdded = !item.isAdded;
-  cart.value = items.value.filter((item) => item.isAdded);
-};
-
-const removeFromDrawer = (cartItem) => {
-  cart.value.splice(cart.value.indexOf(cartItem), 1);
-  cartItem.isAdded = false;
-  const itemToUpdate = items.value.find((item) => item.id === cartItem.id);
-  if (itemToUpdate) {
-    itemToUpdate.isAdded = false;
-  }
-};
-
-const totalPrice = computed(() =>
-  cart.value.reduce((acc, item) => acc + item.price, 0)
-);
-
-const createOrder = async () => {
-  try {
-    const { data } = await useFetch(
-      "https://2fadb0c14f8b7015.mokky.dev/orders",
-      {
-        method: "POST",
-        body: {
-          items: cart.value,
-          totalPrice: totalPrice.value,
-        },
-      }
-    );
-    cart.value = [];
-    items.value.forEach((item) => (item.isAdded = false));
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-// watch changing properties isFav and isAdded on click and set to LS
-watch(
-  items,
-  () => {
-    const favorites = items.value.filter((item) => item.isFavorite);
-    const cartItems = items.value.filter((item) => item.isAdded);
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  },
-  { deep: true }
-);
-
+provide("addToFavorite", addToFavorite);
 provide("onAddPlus", onAddPlus);
 provide("removeFromDrawer", removeFromDrawer);
-provide("addToFavorite", addToFavorite);
 
-onMounted(async () => {
-  await fetchItems();
+onMounted(() => {
+  store.fetchItems();
 });
 
-watch(filters, () => {
-  fetchItems();
+watch(() => {
+  store.fetchItems();
+});
+watch([sortQuery, searchQuery], () => {
+  store.filters.sortQuery = sortQuery.value;
+  store.filters.searchQuery = searchQuery.value;
+  store.fetchItems();
 });
 </script>
 
