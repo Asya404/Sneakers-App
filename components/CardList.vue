@@ -6,6 +6,7 @@
         :key="item.id"
         :item="item"
         :toggleFavorite="toggleFavorite"
+        :onAddPlus="onAddPlus"
       />
     </div>
   </div>
@@ -15,6 +16,7 @@
 defineProps({
   items: Array,
   toggleFavorite: Function,
+  onAddPlus: Function,
 });
 </script>
 

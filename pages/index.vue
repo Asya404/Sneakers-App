@@ -24,7 +24,11 @@
     </div>
   </div>
 
-  <CardList :items="items" :toggleFavorite="store.toggleFavorite" />
+  <CardList
+    :items="items"
+    :toggleFavorite="store.toggleFavorite"
+    :onAddPlus="store.onAddPlus"
+  />
 </template>
 
 <script setup>

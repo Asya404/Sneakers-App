@@ -30,12 +30,11 @@
 defineProps({
   item: Object,
   toggleFavorite: Function,
+  onAddPlus: Function,
 });
 
 import { useMainStore } from "@/store/store";
 const store = useMainStore();
-
-const onAddPlus = (item) => store.onAddPlus(item);
 </script>
 
 <style scoped>
