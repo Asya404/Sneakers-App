@@ -3,7 +3,7 @@
     <img
       class="card__fav"
       :src="!item.isFavorite ? '/like-1.svg' : '/like-2.svg'"
-      @click="addToFavorite(item)"
+      @click="() => toggleFavorite(item)"
       alt="Like"
     />
     <div class="card__img">
@@ -29,12 +29,13 @@
 <script setup>
 defineProps({
   item: Object,
-  onAddPlus: Function,
-  onClickFavorite: Function,
+  toggleFavorite: Function,
 });
 
-const addToFavorite = inject("addToFavorite");
-const onAddPlus = inject("onAddPlus");
+import { useMainStore } from "@/store/store";
+const store = useMainStore();
+
+const onAddPlus = (item) => store.onAddPlus(item);
 </script>
 
 <style scoped>

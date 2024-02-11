@@ -1,7 +1,12 @@
 <template>
   <div class="cards">
-    <div class="container" v-auto-animate>
-      <Card v-for="item in items" :key="item.id" :item="item" />
+    <div class="cards__wrapper" v-auto-animate>
+      <Card
+        v-for="item in items"
+        :key="item.id"
+        :item="item"
+        :toggleFavorite="toggleFavorite"
+      />
     </div>
   </div>
 </template>
@@ -9,16 +14,16 @@
 <script setup>
 defineProps({
   items: Array,
+  toggleFavorite: Function,
 });
 </script>
 
 <style>
 .cards {
-  padding-bottom: 30px;
   margin-top: 10px;
 }
 
-.cards .container {
+.cards__wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(204px, 1fr));
   gap: 15px;

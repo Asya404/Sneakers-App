@@ -8,8 +8,10 @@
   />
 
   <div class="wrapper">
-    <Header :openDrawer="openDrawer" :totalPrice="totalPrice" />
-    <slot />
+    <div class="container">
+      <Header :openDrawer="openDrawer" :totalPrice="totalPrice" />
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -52,6 +54,7 @@ a {
   width: 100%;
   max-width: 90%;
   margin: 0 auto;
+  padding: 30px 0;
 }
 
 .wrapper {

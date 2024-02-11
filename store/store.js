@@ -5,6 +5,7 @@ export const useMainStore = defineStore("main", () => {
   const items = ref([]);
   const cart = ref([]);
   const drawerOpen = ref(false);
+  const favorites = ref([]);
   const filters = reactive({
     sortQuery: "",
     searchQuery: "",
@@ -23,8 +24,11 @@ export const useMainStore = defineStore("main", () => {
         "https://2fadb0c14f8b7015.mokky.dev/items",
         { params }
       );
+
       const favoritesLS = JSON.parse(localStorage.getItem("favorites")) || [];
       const addedItemsLS = JSON.parse(localStorage.getItem("cart")) || [];
+
+      favorites.value = favoritesLS;
 
       items.value = data.value.map((item) => ({
         ...item,
@@ -38,10 +42,24 @@ export const useMainStore = defineStore("main", () => {
     }
   };
 
-  const addToFavorite = (item) => {
+  const toggleFavorite = (item) => {
     item.isFavorite = !item.isFavorite;
-    const favorites = items.value.filter((item) => item.isFavorite);
+    const favorites = items.value.filter((i) => i.isFavorite);
     localStorage.setItem("favorites", JSON.stringify(favorites));
+  };
+
+  const toggleItemFavorite = (favItem) => {
+    favItem.isFavorite = !favItem.isFavorite;
+    items.value.forEach((i) => {
+      if (favItem.id === i.id) {
+        i.isFavorite = !i.isFavorite;
+      }
+    });
+
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(items.value.filter((i) => i.isFavorite))
+    );
   };
 
   const onAddPlus = (item) => {
@@ -88,10 +106,12 @@ export const useMainStore = defineStore("main", () => {
     drawerOpen,
     filters,
     fetchItems,
-    addToFavorite,
+    toggleFavorite,
+    toggleItemFavorite,
     onAddPlus,
     removeFromDrawer,
     createOrder,
     totalPrice,
+    favorites,
   };
 });

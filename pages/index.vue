@@ -1,12 +1,10 @@
 <template>
   <div class="hero">
-    <div class="container">
-      <img src="/hero.png" alt="Hero" />
-    </div>
+    <img src="/hero.png" alt="Hero" />
   </div>
 
   <div class="filters">
-    <div class="container">
+    <div class="filters__wrapper">
       <h2>All products</h2>
       <div class="sort">
         <select @change="onChangeSelect">
@@ -26,7 +24,7 @@
     </div>
   </div>
 
-  <CardList :items="items" />
+  <CardList :items="items" :toggleFavorite="store.toggleFavorite" />
 </template>
 
 <script setup>
@@ -39,11 +37,6 @@ const searchQuery = ref("");
 
 const onChangeSelect = (e) => (sortQuery.value = e.target.value);
 const onChangeSearchInput = (e) => (searchQuery.value = e.target.value);
-const addToFavorite = (item) => store.addToFavorite(item);
-const onAddPlus = (item) => store.onAddPlus(item);
-
-provide("addToFavorite", addToFavorite);
-provide("onAddPlus", onAddPlus);
 
 onMounted(() => {
   store.fetchItems();
@@ -52,6 +45,7 @@ onMounted(() => {
 watch(() => {
   store.fetchItems();
 });
+
 watch([sortQuery, searchQuery], () => {
   store.filters.sortQuery = sortQuery.value;
   store.filters.searchQuery = searchQuery.value;
@@ -60,15 +54,11 @@ watch([sortQuery, searchQuery], () => {
 </script>
 
 <style>
-.hero {
-  margin-top: 30px;
-}
-
 .filters {
   padding: 30px 0;
 }
 
-.filters .container {
+.filters__wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;

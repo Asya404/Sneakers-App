@@ -1,13 +1,15 @@
 <template>
-  <header>
-    <div class="container">
-      <div class="logo">
-        <img src="/logo.png" alt="Logo" />
-        <div>
-          <h1>Vue Sneakers</h1>
-          <p class="subtitle">The ultimate sneaker spot</p>
+  <header class="header">
+    <div class="header__wrapper">
+      <NuxtLink to="/">
+        <div class="logo">
+          <img src="/logo.png" alt="Logo" />
+          <div>
+            <h1>Vue Sneakers</h1>
+            <p class="subtitle">The ultimate sneaker spot</p>
+          </div>
         </div>
-      </div>
+      </NuxtLink>
       <ul>
         <li @click="openDrawer">
           <img src="/cart.svg" alt="Cart" />
@@ -15,10 +17,12 @@
             ><b>{{ totalPrice }} €</b></span
           >
         </li>
-        <li>
-          <img src="/heart.svg" alt="Heart" />
-          <span>favs</span>
-        </li>
+        <NuxtLink to="/favorites">
+          <li>
+            <img src="/heart.svg" alt="Heart" />
+            <span>favs</span>
+          </li>
+        </NuxtLink>
         <li>
           <img src="/profile.svg" alt="Heart" />
           <span>profile</span>
@@ -37,11 +41,12 @@ defineProps({
 
 <style scoped>
 header {
-  padding: 30px 0;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
   border-bottom: 1px solid #cbd5e1;
 }
 
-header .container {
+.header__wrapper {
   display: flex;
   justify-content: space-between;
 }
@@ -50,6 +55,7 @@ header .container {
   display: flex;
   align-items: center;
   gap: 15px;
+  cursor: pointer;
 }
 
 .logo img {
