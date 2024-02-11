@@ -44,61 +44,50 @@ export const useMainStore = defineStore("main", () => {
 
   const toggleFavorite = (item) => {
     item.isFavorite = !item.isFavorite;
-    const favorites = items.value.filter((i) => i.isFavorite);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  };
-
-  const toggleItemFavorite = (favItem) => {
-    favItem.isFavorite = !favItem.isFavorite;
 
     items.value.forEach((i) => {
-      if (favItem.id === i.id) {
-        i.isFavorite = !i.isFavorite;
+      if (item.id === i.id) {
+        i.isFavorite = item.isFavorite;
       }
     });
-    const favorites = items.value.filter((i) => i.isFavorite);
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    updateFavorites();
   };
 
   const onAddPlus = (item) => {
     item.isAdded = !item.isAdded;
-    cart.value = items.value.filter((item) => item.isAdded);
-    localStorage.setItem("cart", JSON.stringify(cart.value));
-  };
-
-  const onAddPlusFavorites = (favItem) => {
-    favItem.isAdded = !favItem.isAdded;
 
     items.value.forEach((i) => {
-      if (favItem.id === i.id) {
-        i.isAdded = favItem.isAdded;
+      if (item.id === i.id) {
+        i.isAdded = item.isAdded;
       }
     });
 
-    cart.value = items.value.filter((item) => item.isAdded);
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(items.value.filter((i) => i.isAdded))
-    );
-    localStorage.setItem("favorites", JSON.stringify(favorites.value));
+    updateCart();
+    updateFavorites();
   };
 
   const removeFromDrawer = (cartItem) => {
     cart.value.splice(cart.value.indexOf(cartItem), 1);
     cartItem.isAdded = false;
+
+    // update isAdded for item in items
     const itemToUpdate = items.value.find((item) => item.id === cartItem.id);
-    const itemToUpdateFavorites = favorites.value.find(
-      (item) => item.id === cartItem.id
-    );
     if (itemToUpdate) {
       itemToUpdate.isAdded = false;
     }
 
-    if (itemToUpdateFavorites) {
-      itemToUpdateFavorites.isAdded = false;
-    }
+    updateFavorites();
+    updateCart();
+  };
+
+  const updateFavorites = () => {
+    favorites.value = items.value.filter((item) => item.isFavorite);
     localStorage.setItem("favorites", JSON.stringify(favorites.value));
+  };
+
+  const updateCart = () => {
+    cart.value = items.value.filter((item) => item.isAdded);
     localStorage.setItem("cart", JSON.stringify(cart.value));
   };
 
@@ -131,9 +120,7 @@ export const useMainStore = defineStore("main", () => {
     filters,
     fetchItems,
     toggleFavorite,
-    toggleItemFavorite,
     onAddPlus,
-    onAddPlusFavorites,
     removeFromDrawer,
     createOrder,
     totalPrice,

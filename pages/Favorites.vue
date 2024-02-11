@@ -2,8 +2,8 @@
   <h1>My favorites</h1>
   <CardList
     :items="favorites"
-    :toggleFavorite="store.toggleItemFavorite"
-    :onAddPlus="store.onAddPlusFavorites"
+    :toggleFavorite="store.toggleFavorite"
+    :onAddPlus="store.onAddPlus"
   />
 </template>
 
