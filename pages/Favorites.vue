@@ -11,9 +11,6 @@
 import { useMainStore } from "@/store/store";
 const store = useMainStore();
 
-watch(() => {
-  store.fetchItems();
-});
 onMounted(() => {
   store.fetchItems();
 });

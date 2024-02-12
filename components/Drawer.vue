@@ -74,14 +74,11 @@ const createOrder = async () => {
     totalPrice: store.totalPrice,
   };
   try {
-    const { data } = await useFetch(
-      "https://2fadb0c14f8b7015.mokky.dev/orders",
-      {
-        method: "POST",
-        body,
-      }
-    );
-    orderId.value = data.value.id;
+    const data = await $fetch("https://2fadb0c14f8b7015.mokky.dev/orders", {
+      method: "POST",
+      body,
+    });
+    orderId.value = data.id;
     isOrdered.value = true;
     store.cart = [];
     store.items.forEach((item) => (item.isAdded = false));

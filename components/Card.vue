@@ -3,7 +3,7 @@
     <img
       class="card__fav"
       :src="!item.isFavorite ? '/like-1.svg' : '/like-2.svg'"
-      @click="() => toggleFavorite(item)"
+      @click="toggleFavorite(item)"
       alt="Like"
     />
     <div class="card__img">

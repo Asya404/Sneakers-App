@@ -19,22 +19,23 @@ export const useMainStore = defineStore("main", () => {
     if (filters.sortQuery) {
       params.sortBy = filters.sortQuery;
     }
+
     try {
-      const { data } = await useFetch(
-        "https://2fadb0c14f8b7015.mokky.dev/items",
-        { params }
-      );
+      const data = await $fetch("https://2fadb0c14f8b7015.mokky.dev/items", {
+        params,
+      });
 
       const favoritesLS = JSON.parse(localStorage.getItem("favorites")) || [];
       const addedItemsLS = JSON.parse(localStorage.getItem("cart")) || [];
 
       favorites.value = favoritesLS;
 
-      items.value = data.value.map((item) => ({
-        ...item,
-        isFavorite: favoritesLS.some((fav) => fav.id === item.id),
-        isAdded: addedItemsLS.some((addedItem) => addedItem.id === item.id),
-      }));
+      items.value =
+        data.map((item) => ({
+          ...item,
+          isFavorite: favoritesLS.some((fav) => fav.id === item.id),
+          isAdded: addedItemsLS.some((addedItem) => addedItem.id === item.id),
+        })) || [];
 
       cart.value = addedItemsLS;
     } catch (error) {
@@ -88,6 +89,14 @@ export const useMainStore = defineStore("main", () => {
   const closeDrawer = () => {
     drawerOpen.value = false;
   };
+
+  watch(
+    filters,
+    () => {
+      fetchItems();
+    },
+    { deep: true }
+  );
 
   return {
     items,

@@ -35,24 +35,14 @@
 import { useMainStore } from "@/store/store";
 const store = useMainStore();
 
-const sortQuery = ref("");
-const searchQuery = ref("");
+const onChangeSelect = (e) => (store.filters.sortQuery = e.target.value);
+const onChangeSearchInput = useDebounce(
+  (e) => (store.filters.searchQuery = e.target.value),
+  500
+);
 
-const onChangeSelect = (e) => (sortQuery.value = e.target.value);
-const onChangeSearchInput = (e) => (searchQuery.value = e.target.value);
-
-onMounted(() => {
-  store.fetchItems();
-});
-
-watch(() => {
-  store.fetchItems();
-});
-
-watch([sortQuery, searchQuery], () => {
-  store.filters.sortQuery = sortQuery.value;
-  store.filters.searchQuery = searchQuery.value;
-  store.fetchItems();
+onMounted(async () => {
+  await store.fetchItems();
 });
 </script>
 
