@@ -1,12 +1,8 @@
 <template>
-  <div class="backdrop"></div>
+  <div class="backdrop" @click="closeDrawer"></div>
   <div class="drawer">
     <div class="drawer__header">
-      <img
-        src="/arrow-next.svg"
-        alt="Arrow"
-        @click="() => emit('closeDrawer')"
-      />
+      <img src="/arrow-next.svg" alt="Arrow" @click="closeDrawer" />
       <h2>Drawer</h2>
     </div>
 
@@ -18,7 +14,7 @@
     />
 
     <div v-else>
-      <CartList :cart="cart" />
+      <CartList :cart="cart" :removeFromDrawer="removeFromDrawer" />
 
       <div class="drawer__footer">
         <div class="drawer__summary">
@@ -43,9 +39,44 @@
 defineProps({
   cart: Array,
   totalPrice: Number,
-  createOrder: Function,
+  closeDrawer: Function,
 });
-const emit = defineEmits(["closeDrawer"]);
+
+import { useMainStore } from "@/store/store";
+const store = useMainStore();
+
+const removeFromDrawer = (cartItem) => {
+  store.cart.splice(store.cart.indexOf(cartItem), 1);
+  cartItem.isAdded = false;
+
+  const itemToUpdate = store.items.find((item) => item.id === cartItem.id);
+  if (itemToUpdate) {
+    itemToUpdate.isAdded = false;
+  }
+
+  store.updateFavorites();
+  store.updateCart();
+};
+
+const createOrder = async () => {
+  const body = {
+    items: store.cart,
+    totalPrice: store.totalPrice,
+  };
+  try {
+    await useFetch("https://2fadb0c14f8b7015.mokky.dev/orders", {
+      method: "POST",
+      body,
+    });
+    store.cart = [];
+    store.items.forEach((item) => (item.isAdded = false));
+
+    store.updateFavorites();
+    store.updateCart();
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <style scoped>

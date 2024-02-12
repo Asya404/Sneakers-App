@@ -1,15 +1,14 @@
 <template>
   <Drawer
-    v-if="drawerOpen"
-    @closeDrawer="closeDrawer"
-    :createOrder="createOrder"
-    :totalPrice="totalPrice"
-    :cart="cart"
+    v-if="store.drawerOpen"
+    :totalPrice="store.totalPrice"
+    :cart="store.cart"
+    :closeDrawer="store.closeDrawer"
   />
 
   <div class="wrapper">
     <div class="container">
-      <Header :openDrawer="openDrawer" :totalPrice="totalPrice" />
+      <Header :totalPrice="store.totalPrice" :openDrawer="store.openDrawer" />
       <slot />
     </div>
   </div>
@@ -18,14 +17,6 @@
 <script setup>
 import { useMainStore } from "@/store/store";
 const store = useMainStore();
-
-const cart = computed(() => store.cart);
-const drawerOpen = computed(() => store.drawerOpen);
-const totalPrice = computed(() => store.totalPrice);
-
-const closeDrawer = () => (store.drawerOpen = false);
-const openDrawer = () => (store.drawerOpen = true);
-const createOrder = () => store.createOrder();
 </script>
 
 <style>

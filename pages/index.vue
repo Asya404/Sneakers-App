@@ -25,7 +25,7 @@
   </div>
 
   <CardList
-    :items="items"
+    :items="store.items"
     :toggleFavorite="store.toggleFavorite"
     :onAddPlus="store.onAddPlus"
   />
@@ -35,7 +35,6 @@
 import { useMainStore } from "@/store/store";
 const store = useMainStore();
 
-const items = computed(() => store.items);
 const sortQuery = ref("");
 const searchQuery = ref("");
 

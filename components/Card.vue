@@ -32,9 +32,6 @@ defineProps({
   toggleFavorite: Function,
   onAddPlus: Function,
 });
-
-import { useMainStore } from "@/store/store";
-const store = useMainStore();
 </script>
 
 <style scoped>

@@ -17,12 +17,8 @@
 <script setup>
 defineProps({
   product: Object,
+  removeFromDrawer: Function,
 });
-
-import { useMainStore } from "@/store/store";
-const store = useMainStore();
-
-const removeFromDrawer = (cartItem) => store.removeFromDrawer(cartItem);
 </script>
 
 <style scoped>

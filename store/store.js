@@ -67,20 +67,6 @@ export const useMainStore = defineStore("main", () => {
     updateFavorites();
   };
 
-  const removeFromDrawer = (cartItem) => {
-    cart.value.splice(cart.value.indexOf(cartItem), 1);
-    cartItem.isAdded = false;
-
-    // update isAdded for item in items
-    const itemToUpdate = items.value.find((item) => item.id === cartItem.id);
-    if (itemToUpdate) {
-      itemToUpdate.isAdded = false;
-    }
-
-    updateFavorites();
-    updateCart();
-  };
-
   const updateFavorites = () => {
     favorites.value = items.value.filter((item) => item.isFavorite);
     localStorage.setItem("favorites", JSON.stringify(favorites.value));
@@ -91,27 +77,17 @@ export const useMainStore = defineStore("main", () => {
     localStorage.setItem("cart", JSON.stringify(cart.value));
   };
 
-  const createOrder = async () => {
-    const body = {
-      items: cart.value,
-      totalPrice: totalPrice.value,
-    };
-    try {
-      await useFetch("https://2fadb0c14f8b7015.mokky.dev/orders", {
-        method: "POST",
-        body,
-      });
-      cart.value = [];
-      items.value.forEach((item) => (item.isAdded = false));
-      localStorage.setItem("cart", "[]");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const totalPrice = computed(() => {
     return cart.value.reduce((acc, item) => acc + item.price, 0);
   });
+
+  const openDrawer = () => {
+    drawerOpen.value = true;
+  };
+
+  const closeDrawer = () => {
+    drawerOpen.value = false;
+  };
 
   return {
     items,
@@ -121,9 +97,11 @@ export const useMainStore = defineStore("main", () => {
     fetchItems,
     toggleFavorite,
     onAddPlus,
-    removeFromDrawer,
-    createOrder,
+    updateFavorites,
+    updateCart,
     totalPrice,
     favorites,
+    openDrawer,
+    closeDrawer,
   };
 });
