@@ -7,13 +7,20 @@
     </div>
 
     <infoBlock
-      v-if="cart.length === 0"
+      v-if="cart.length === 0 && !isOrdered"
       title="Your cart is empty"
       description="Go shopping"
       imageUrl="/package-icon.png"
     />
 
-    <div v-else>
+    <infoBlock
+      v-if="isOrdered"
+      title="Order is ready"
+      :description="`Your order #${orderId} will be delivered soon`"
+      imageUrl="/order-success-icon.png"
+    />
+
+    <div v-if="cart.length > 0">
       <CartList :cart="cart" :removeFromDrawer="removeFromDrawer" />
 
       <div class="drawer__footer">
@@ -42,6 +49,9 @@ defineProps({
   closeDrawer: Function,
 });
 
+const isOrdered = ref(false);
+const orderId = ref(null);
+
 import { useMainStore } from "@/store/store";
 const store = useMainStore();
 
@@ -64,10 +74,15 @@ const createOrder = async () => {
     totalPrice: store.totalPrice,
   };
   try {
-    await useFetch("https://2fadb0c14f8b7015.mokky.dev/orders", {
-      method: "POST",
-      body,
-    });
+    const { data } = await useFetch(
+      "https://2fadb0c14f8b7015.mokky.dev/orders",
+      {
+        method: "POST",
+        body,
+      }
+    );
+    orderId.value = data.value.id;
+    isOrdered.value = true;
     store.cart = [];
     store.items.forEach((item) => (item.isAdded = false));
 
