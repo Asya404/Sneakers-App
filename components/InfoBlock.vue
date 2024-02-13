@@ -1,6 +1,6 @@
 <template>
   <div class="info">
-    <img class="info__img" :src="imageUrl" alt="Info image" />
+    <NuxtImg class="info__img" :src="imageUrl" alt="Info image" />
     <h2 class="info__title">{{ title }}</h2>
     <p class="info__description">{{ description }}</p>
   </div>

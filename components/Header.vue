@@ -3,7 +3,7 @@
     <div class="header__wrapper">
       <NuxtLink to="/">
         <div class="logo">
-          <img src="/logo.png" alt="Logo" />
+          <NuxtImg src="/logo.png" alt="Logo" />
           <div>
             <h1>Vue Sneakers</h1>
             <p class="subtitle">The ultimate sneaker spot</p>
@@ -12,19 +12,19 @@
       </NuxtLink>
       <ul>
         <li @click="openDrawer">
-          <img src="/cart.svg" alt="Cart" />
+          <NuxtImg src="/cart.svg" alt="Cart" />
           <span
             ><b>{{ totalPrice }} €</b></span
           >
         </li>
         <NuxtLink to="/favorites">
           <li>
-            <img src="/heart.svg" alt="Heart" />
+            <NuxtImg src="/heart.svg" alt="Heart" />
             <span>favs</span>
           </li>
         </NuxtLink>
         <li>
-          <img src="/profile.svg" alt="Heart" />
+          <NuxtImg src="/profile.svg" alt="Profile" />
           <span>profile</span>
         </li>
       </ul>
@@ -89,5 +89,9 @@ ul li {
 
 ul li:hover {
   color: #000;
+}
+
+ul li img {
+  height: 20px;
 }
 </style>

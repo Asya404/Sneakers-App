@@ -11,5 +11,10 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["@formkit/auto-animate/nuxt", "@pinia/nuxt", "nuxt-lodash"],
+  modules: [
+    "@formkit/auto-animate/nuxt",
+    "@pinia/nuxt",
+    "nuxt-lodash",
+    "@nuxt/image",
+  ],
 });

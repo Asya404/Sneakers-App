@@ -1,6 +1,6 @@
 <template>
   <div class="hero">
-    <img src="/hero.png" alt="Hero" />
+    <NuxtImg src="/hero.png" alt="Hero" />
   </div>
 
   <div class="filters">
@@ -14,7 +14,7 @@
         </select>
       </div>
       <div class="search">
-        <img src="/search.svg" alt="Search" />
+        <NuxtImg src="/search.svg" alt="Search" />
         <input
           @input="onChangeSearchInput"
           type="text"
@@ -86,6 +86,7 @@ onMounted(async () => {
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
+  width: 16px;
 }
 
 .sort select {
