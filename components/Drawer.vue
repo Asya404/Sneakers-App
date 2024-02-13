@@ -63,9 +63,6 @@ const removeFromDrawer = (cartItem) => {
   if (itemToUpdate) {
     itemToUpdate.isAdded = false;
   }
-
-  store.updateFavorites();
-  store.updateCart();
 };
 
 const createOrder = async () => {
@@ -82,9 +79,6 @@ const createOrder = async () => {
     isOrdered.value = true;
     store.cart = [];
     store.items.forEach((item) => (item.isAdded = false));
-
-    store.updateFavorites();
-    store.updateCart();
   } catch (error) {
     console.error(error);
   }

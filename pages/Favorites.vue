@@ -3,7 +3,7 @@
   <CardList
     :items="store.favorites"
     :toggleFavorite="store.toggleFavorite"
-    :onAddPlus="store.onAddPlus"
+    :togglePlus="store.togglePlus"
   />
 </template>
 

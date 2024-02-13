@@ -27,7 +27,7 @@
   <CardList
     :items="store.items"
     :toggleFavorite="store.toggleFavorite"
-    :onAddPlus="store.onAddPlus"
+    :togglePlus="store.togglePlus"
   />
 </template>
 

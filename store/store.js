@@ -6,6 +6,7 @@ export const useMainStore = defineStore("main", () => {
   const cart = ref([]);
   const drawerOpen = ref(false);
   const favorites = ref([]);
+  let fetchCompleted = false;
   const filters = reactive({
     sortQuery: "",
     searchQuery: "",
@@ -38,6 +39,7 @@ export const useMainStore = defineStore("main", () => {
         })) || [];
 
       cart.value = addedItemsLS;
+      fetchCompleted = true;
     } catch (error) {
       console.error(error);
     }
@@ -51,11 +53,9 @@ export const useMainStore = defineStore("main", () => {
         i.isFavorite = item.isFavorite;
       }
     });
-
-    updateFavorites();
   };
 
-  const onAddPlus = (item) => {
+  const togglePlus = (item) => {
     item.isAdded = !item.isAdded;
 
     items.value.forEach((i) => {
@@ -63,19 +63,6 @@ export const useMainStore = defineStore("main", () => {
         i.isAdded = item.isAdded;
       }
     });
-
-    updateCart();
-    updateFavorites();
-  };
-
-  const updateFavorites = () => {
-    favorites.value = items.value.filter((item) => item.isFavorite);
-    localStorage.setItem("favorites", JSON.stringify(favorites.value));
-  };
-
-  const updateCart = () => {
-    cart.value = items.value.filter((item) => item.isAdded);
-    localStorage.setItem("cart", JSON.stringify(cart.value));
   };
 
   const totalPrice = computed(() => {
@@ -90,10 +77,28 @@ export const useMainStore = defineStore("main", () => {
     drawerOpen.value = false;
   };
 
+  const updateItems = () => {
+    favorites.value = items.value.filter((item) => item.isFavorite);
+    cart.value = items.value.filter((item) => item.isAdded);
+
+    localStorage.setItem("favorites", JSON.stringify(favorites.value));
+    localStorage.setItem("cart", JSON.stringify(cart.value));
+  };
+
   watch(
     filters,
     () => {
       fetchItems();
+    },
+    { deep: true }
+  );
+
+  watch(
+    items,
+    () => {
+      if (fetchCompleted) {
+        updateItems();
+      }
     },
     { deep: true }
   );
@@ -105,9 +110,7 @@ export const useMainStore = defineStore("main", () => {
     filters,
     fetchItems,
     toggleFavorite,
-    onAddPlus,
-    updateFavorites,
-    updateCart,
+    togglePlus,
     totalPrice,
     favorites,
     openDrawer,

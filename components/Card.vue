@@ -19,7 +19,7 @@
       </div>
       <img
         :src="!item.isAdded ? '/plus.svg' : '/checked.svg'"
-        @click="onAddPlus(item)"
+        @click="togglePlus(item)"
         alt="Checked"
       />
     </div>
@@ -30,7 +30,7 @@
 defineProps({
   item: Object,
   toggleFavorite: Function,
-  onAddPlus: Function,
+  togglePlus: Function,
 });
 </script>
 
