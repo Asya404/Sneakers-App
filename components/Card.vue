@@ -1,13 +1,13 @@
 <template>
   <div class="card">
-    <NuxtImg
+    <img
       class="card__fav"
       :src="!item.isFavorite ? '/like-1.svg' : '/like-2.svg'"
       @click="toggleFavorite(item)"
       alt="Like"
     />
     <div class="card__img">
-      <NuxtImg class="card__img" :src="item.imageUrl" :alt="item.title" />
+      <img class="card__img" :src="item.imageUrl" :alt="item.title" />
     </div>
     <p class="card__title">{{ item.title }}</p>
     <div class="card__footer">
@@ -17,8 +17,7 @@
           ><b>{{ item.price }} €</b></span
         >
       </div>
-      <NuxtImg
-        class="card__plus"
+      <img
         :src="!item.isAdded ? '/plus.svg' : '/checked.svg'"
         @click="togglePlus(item)"
         alt="Checked"
@@ -62,13 +61,6 @@ defineProps({
   position: absolute;
   top: 30px;
   left: 30px;
-  width: 32px;
-  height: 32px;
-}
-
-.card__plus {
-  width: 32px;
-  height: 32px;
 }
 
 .card__img img {

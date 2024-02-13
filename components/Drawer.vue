@@ -2,7 +2,7 @@
   <div class="backdrop" @click="closeDrawer"></div>
   <div class="drawer">
     <div class="drawer__header">
-      <NuxtImg src="/arrow-next.svg" alt="Arrow" @click="closeDrawer" />
+      <img src="/arrow-next.svg" alt="Arrow" @click="closeDrawer" />
       <h2>Drawer</h2>
     </div>
 
@@ -119,7 +119,6 @@ const createOrder = async () => {
 }
 
 .drawer img {
-  width: 16px;
   opacity: 0.3;
   cursor: pointer;
   transform: rotate(180deg);
