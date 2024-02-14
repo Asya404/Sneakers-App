@@ -48,7 +48,7 @@ onMounted(async () => {
 
 <style>
 .filters {
-  padding: 30px 0;
+  padding-top: 30px;
 }
 
 .filters__wrapper {
@@ -56,16 +56,22 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .filters h2 {
-  font-size: 25px;
-  font-weight: 700;
   flex: 1;
 }
 
 .search {
   position: relative;
+}
+
+.search,
+.search input,
+.sort,
+.sort select {
+  width: 100%;
 }
 
 .search input,
@@ -90,5 +96,16 @@ onMounted(async () => {
 
 .sort select {
   padding-left: 8px;
+}
+
+@media (min-width: 480px) {
+  .filters__wrapper {
+    flex-wrap: nowrap;
+  }
+
+  .search,
+  .sort {
+    width: initial;
+  }
 }
 </style>

@@ -7,7 +7,7 @@
       alt="Like"
     />
     <div class="card__img">
-      <img class="card__img" :src="item.imageUrl" :alt="item.title" />
+      <img :src="item.imageUrl" :alt="item.title" />
     </div>
     <p class="card__title">{{ item.title }}</p>
     <div class="card__footer">
@@ -61,6 +61,10 @@ defineProps({
   position: absolute;
   top: 30px;
   left: 30px;
+}
+
+.card__img {
+  text-align: center;
 }
 
 .card__img img {

@@ -54,6 +54,23 @@ a {
   border-radius: 12px;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
-  margin: 55px auto;
+  margin: 55px 15px;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  h2 {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 960px) {
+  .wrapper {
+    margin: 55px auto;
+  }
 }
 </style>

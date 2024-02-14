@@ -1,5 +1,5 @@
 <template>
-  <h1>My favorites</h1>
+  <h2>My favorites</h2>
   <CardList
     :items="store.favorites"
     :toggleFavorite="store.toggleFavorite"

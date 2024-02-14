@@ -13,9 +13,7 @@
       <ul>
         <li @click="openDrawer">
           <img src="/cart.svg" alt="Cart" />
-          <span
-            ><b>{{ totalPrice }} €</b></span
-          >
+          <span>{{ totalPrice }} €</span>
         </li>
         <NuxtLink to="/favorites">
           <li>
@@ -49,6 +47,8 @@ header {
 .header__wrapper {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
 .logo {
@@ -81,10 +81,14 @@ ul {
 
 ul li {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   color: #6b7280;
   transition: all 0.3s ease;
   cursor: pointer;
+}
+
+ul li span {
+  letter-spacing: 1px;
 }
 
 ul li:hover {

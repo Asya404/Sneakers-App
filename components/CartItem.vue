@@ -31,7 +31,6 @@ defineProps({
   padding: 15px;
   border-radius: 15px;
   margin-bottom: 15px;
-  position: relative;
 }
 
 .cart__img {
@@ -40,13 +39,10 @@ defineProps({
 
 .cart__price {
   font-weight: 700;
+  margin-top: 5px;
 }
 
 .cart__close {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 15px;
   opacity: 0.4;
   transition: all 0.3s ease;
   cursor: pointer;

@@ -22,7 +22,7 @@ defineProps({
 
 <style>
 .cards {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .cards__wrapper {
