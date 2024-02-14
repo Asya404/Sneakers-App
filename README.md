@@ -1,4 +1,4 @@
-# 👟💥 Sneakers shop (Vue.js)
+# Sneakers shop (Vue.js) 👟💥 
 
 Built with Vue.js, this app lets you shop for sneakers effortlessly. Sort, search, and save your favorites with ease. 
 Plus, keep track of your purchases with a handy basket feature.
